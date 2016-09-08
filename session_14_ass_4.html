@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="AngularApp">
+<head>
+	<title>Angular Example</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+	<script>
+		var myapp = angular.module("AngularApp", []);
+		
+		myapp.directive("panelDirective", function() {
+			return {
+				restrict : 'A',
+				transclude: true,
+				replace: 'true',
+				template : '<div class="panel panel-primary"><div class="panel-heading">{{title}}</div>'+
+				'<ng-transclude></ng-transclude>'+'<div class="panel-body">{{content}}</div></div>',
+				link : function(scope, elem, attr){
+					scope.title = attr.panelTitle;
+					scope.content = attr.panelContent;
+				}
+			};
+		});
+		
+		myapp.controller("PanelController", function($scope){
+			$scope.title = "Panel Title";
+			$scope.content = "Panel Content";
+		});
+	</script>
+</head>
+<body>
+
+<div class="container-fluid" ng-controller="PanelController">
+	<h2>Custom Directive Example</h2>	
+	<div class="col-sm-6">
+		<div panel-directive panel-title="{{title}}" panel-content="{{content}}">
+			<h3>This text is from ng-transclude..</h3>
+		</div>
+	</div>
+</div>
+</body>
+</html>
+
